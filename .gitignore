@@ -1,0 +1,21 @@
+# Visual Studio / MSBuild
+.vs/
+bin/
+obj/
+publish/
+*.user
+*.suo
+*.cache
+*.pidb
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+
+# Fody
+FodyWeavers.xsd
+
+# NuGet
+packages/
+*.nupkg
+project.lock.json
