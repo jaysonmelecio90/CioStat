@@ -247,7 +247,7 @@ namespace CioStats
             _find.Interval = 200;
             _find.Tick += (s, e) => TryEmbed();
             Page.Resize += (s, e) => Fit();
-            Launch();
+            Launch(false, _resume);
         }
 
         public void Rename(string newName)
@@ -283,7 +283,7 @@ namespace CioStats
 
         public bool IsRunning { get { return _proc != null && !_proc.HasExited; } }
 
-        private void Launch(bool plain = false)
+        private void Launch(bool plain = false, bool resume = false)
         {
             _child = IntPtr.Zero;
             try
@@ -292,12 +292,12 @@ namespace CioStats
                 _proc = Process.Start(new ProcessStartInfo
                 {
                     FileName = "conhost.exe",
-                    Arguments = plain ? "cmd.exe /k" : "cmd.exe /k claude" + (_resume ? " --continue" : ""),
+                    Arguments = plain ? "cmd.exe /k" : "cmd.exe /k claude" + (resume ? " --continue" : ""),
                     UseShellExecute = false,
                     WorkingDirectory = WorkingDir
                 });
             }
-            catch (Exception ex) { _status.Text = "Launch failed: " + ex.Message; return; }
+            catch (Exception ex) { _status.Text = "Launch failed: " + ex.Message; _canReopen = true; return; }
             _tries = 0;
             _find.Start();
         }
